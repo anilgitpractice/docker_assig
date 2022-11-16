@@ -1,0 +1,3 @@
+# this is the docker run command  for csvserver
+sudo docker run -d -v /home/anil/csvserver/csvserver-master/docker_assig/solution/inputFile:/csvserver/inputdata  infracloudio/csvserver
+
