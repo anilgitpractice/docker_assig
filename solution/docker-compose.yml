@@ -1,0 +1,10 @@
+version: '2'
+services:
+  csvserver:
+    image: infracloudio/csvserver:latest
+    ports:
+      - "9393:9300"
+    volumes:
+      - /home/anil/csvserver/csvserver-master/docker_assig/solution/inputFile:/csvserver/inputdata
+    environment:
+      - CSVSERVER_BORDER=Orange
