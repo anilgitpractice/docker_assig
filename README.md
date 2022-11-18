@@ -20,7 +20,7 @@
  ~~~
  $ unzip master.zip file 
 ~~~
-4. Then you have get a README.md file and **solution** folder, cd  into the **solution** directory.
+4. Then you have get a README.md file and **solution** folder,``` cd```  into the **solution** directory.
 
 ## Pulling required images from dockerhub
 
