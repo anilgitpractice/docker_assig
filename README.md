@@ -12,7 +12,7 @@
 
 ## Dockerinstallation on your machine:
  
-  - Install docker on your machine by using this url [Docker_Installation url ](https://docs.docker.com/desktop/install/linux-install/).
+  - Install docker on your machine by using this url [click here](https://docs.docker.com/desktop/install/linux-install/).
 
   -  After completion of the docker installation follow the below steps for the dockerization of csvserver application.
 
@@ -154,7 +154,7 @@
 ![image](https://user-images.githubusercontent.com/97168620/202326866-ab54061a-5fbb-4698-955f-5fa5b501fd07.png)
 
 ### Docker exec
-  -  The `docker exec`command runs a new command in a running container.
+  -  The `docker exec`command runs a new command in a running container. [click here](https://docs.docker.com/engine/reference/commandline/exec/). more info
  
   -  After running the container we have to Get shell access to the container and find the port. on which port  application is listening.
 
@@ -162,9 +162,7 @@
    ~~~
      docker exec [OPTIONS] CONTAINER_ID command to pass 
    ~~~
-
-  - [referehere](https://docs.docker.com/engine/reference/commandline/exec/)
-
+ 
   - In this `-it` means the interactive mode
 
   - Command to pass means which command to pass inside of a container 
@@ -177,16 +175,14 @@
 
 ### Network Statistics Tool
 
-  - Getting inside of a container you want to see the port on which the application is listing by using the linux command inside of a container that is
-  ~~~
-    $ netstat -nltp
-  ~~~
-
-  - [referehere](https://www.geeksforgeeks.org/netstat-command-linux/).
+  - Getting inside of a container you want to see the port on which the application is listing by using the linux command inside of a container tha is [click here](https://www.geeksforgeeks.org/netstat-command-linux/).more details.
+   ```
+    netstst -nltp
+   ```
 
   - It will shows the active listing ports inside of a container  and process id and the state of the process 
 
-  - In our case it showing **9300/tcp** port in the state is listing 
+  - In our case it showing `9300/tcp` port in the state is listing 
 
 ![image](https://user-images.githubusercontent.com/97168620/202327381-82aeae46-6bed-48bb-a935-0d079783c72a.png)
 
@@ -268,4 +264,66 @@
 > So we successfully dockerized our csvserver application. 
 
 ##PART II
+
+> In this section writing a docker compose file for set up from Part I and running csvserver application.
+
+## Docker compose
+
+ - Compose is a tool for defining and running multi-container Docker applications.
+
+ - With Compose, you use a YAML file to configure your application’s services.
+
+ - Then, with a single command, you create and start all the services from your configuration.
+
+ - More details about docker compose [click here](https://docs.docker.com/compose/gettingstarted/)
+
+ - If you want know about the yaml formatting [click here](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html)
+
+ - Docker compose installation [ click here](https://docs.docker.com/compose/install/linux/#install-using-the-repository).
+
+### writing docker compose file for part I
+
+ - First  create one file named `docker-compose.yml` with a yml extension, For csvserver application 
+ 
+ - Write a docker compose file and pass arguments and values .
+
+ - Define the services in the docker compose file it looks likes below.
+
+  ```
+   version: '2'
+   services:
+     csvserver:
+       image: infracloudio/csvserver:latest
+       ports:
+         - "9393:9300"
+       volume:
+         - "/home/anil/csvserver/csvserver-master/docker_assig/solution/inputFile:/csvserver/inputdata"
+       environment:
+         - csveserver_border=Orange
+   ```
+
+  - Part I instructions are described in above `docker-compose.yml` file 
+
+  - Now up/run the `dockercompose.yml` with `docker compose up`command with `-d` for running background mode it shown like below
+
+   ``` 
+    anil@hellouser:~/csvserver/csvserver-master/docker_assig/solution$ sudo docker compose up -d
+    [+] Running 1/1
+    ⠿ Container solution-csvserver-1  Started   
+
+    ```
+  - The application is accessible on the host at http://localhost:9393
+ 
+![image](https://user-images.githubusercontent.com/97168620/202318100-f4231a0f-4f82-445b-9d7d-97ca299e1f2d.png)
+                    
+  - Use `docker compose down` command for stopping the container.
+
+```
+anil@hellouser:~/csvserver/csvserver-master/docker_assig/solution$ sudo docker compose down
+[+] Running 2/2
+ ⠿ Container solution-csvserver-1  Removed                                                                                                               0.5s
+ ⠿ Network solution_default        Removed   
+```
+
+> By using the docker compose.yml file successfully
 
