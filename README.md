@@ -312,6 +312,7 @@
     ⠿ Container solution-csvserver-1  Started   
 
     ```
+
   - The application is accessible on the host at http://localhost:9393
  
 ![image](https://user-images.githubusercontent.com/97168620/202318100-f4231a0f-4f82-445b-9d7d-97ca299e1f2d.png)
@@ -322,7 +323,8 @@
 anil@hellouser:~/csvserver/csvserver-master/docker_assig/solution$ sudo docker compose down
 [+] Running 2/2
  ⠿ Container solution-csvserver-1  Removed                                                                                                               0.5s
- ⠿ Network solution_default        Removed   
+ ⠿ Network solution_default        Removed
+   
 ```
 
 > By using the docker compose.yml file successfully
