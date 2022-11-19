@@ -310,8 +310,7 @@
     anil@hellouser:~/csvserver/csvserver-master/docker_assig/solution$ sudo docker compose up -d
     [+] Running 1/1
     ⠿ Container solution-csvserver-1  Started   
-
-    ```
+   ```
 
   - The application is accessible on the host at http://localhost:9393
  
@@ -319,13 +318,12 @@
                     
   - Use `docker compose down` command for stopping the container.
 
-```
-anil@hellouser:~/csvserver/csvserver-master/docker_assig/solution$ sudo docker compose down
-[+] Running 2/2
- ⠿ Container solution-csvserver-1  Removed                                                                                                               0.5s
- ⠿ Network solution_default        Removed
-   
-```
+  ```
+    anil@hellouser:~/csvserver/csvserver-master/docker_assig/solution$ sudo docker compose down
+    [+] Running 2/2
+    ⠿ Container solution-csvserver-1  Removed                        0.5s
+    ⠿ Network solution_default        Removed
+  ```
 
 > By using the docker compose.yml file successfully
 
