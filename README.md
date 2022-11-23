@@ -1,4 +1,4 @@
-# Csvserver application dockerization 
+# Csvserver application dockerization Assignment
 
 ## Prerequisites.
 
@@ -137,9 +137,7 @@
   6. After generating an inputFile, again run the container by passing the data using volumes tag `-v`using the command.
 ### Docker volumes
 
-  -  Creates a new volume that containers can consume and store data in. If a name is not specified, Docker generates a random name.
-
-  -  [referehere](https://docs.docker.com/engine/reference/commandline/volume_create/).
+  -  Creates a new volume that containers can consume and store data in. If a name is not specified, Docker generates a random name [click here] (https://docs.docker.com/engine/reference/commandline/volume_create/) more info.
 
   -  So you can pass the input data by using the volume tag`-v`into the docker run command.
    ~~~
@@ -261,9 +259,11 @@
 
 ![image](https://user-images.githubusercontent.com/97168620/202318100-f4231a0f-4f82-445b-9d7d-97ca299e1f2d.png)
 
-> So we successfully dockerized our csvserver application. 
+> So we successfully dockerized our csvserver application.
+ 
+---------
 
-##PART II
+## PART II
 
 > In this section writing a docker compose file for set up from Part I and running csvserver application.
 
@@ -325,5 +325,98 @@
     ⠿ Network solution_default        Removed
   ```
 
-> By using the docker compose.yml file successfully
+> By using the docker compose.yml file successfully.
 
+-------
+
+## Part III
+ 
+ - In this section we are monitoring the csvserver by using the Prometheus.
+ 
+### Prometheus
+ 
+ - Prometheus is a free software application used for event monitoring and alerting. It records real-time metrics in a time series database built using a HTTP pull model, with flexible queries and real-time alerting
+ 
+### Solution 
+ 
+ - Delete any containers running from the last part.
+ 
+ - For prometheus configuration [clickhere](https://prometheus.io/docs/prometheus/latest/getting_started/).
+ 
+ - Create a `prometheus.yml` file and write the configuration for prometheus.
+```
+scrape_configs:
+- job_name: 'prometheus'
+  static_configs:
+  - targets: ['localhost:9090']
+- job_name: 'csvserver_records '
+  static_configs:
+  - targets: ['192.168.1.102:9393']
+```
+
+ - For `prometheus.yml` file [clickhere](https://github.com/anilgitpractice/docker_assig/blob/main/solution/prometheus.yml).
+ 
+ - Add Prometheus container (`prom/prometheus:v2.22.0`) to the `docker-compose.yaml` form part II.
+```
+version: '2'
+services:
+  csvserver:
+    image: infracloudio/csvserver:latest
+    ports:
+      - "9393:9300"
+    volumes:
+      - /home/anil/csvserver/csvserver-master/docker_assig/solution/inputFile:/csvserver/inputdata
+    environment:
+      - CSVSERVER_BORDER=Orange
+  prometheus:
+    image: prom/prometheus:v2.22.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+```
+
+ - For the `docker compose.yml` file [clickhere](https://github.com/anilgitpractice/docker_assig/blob/main/solution/docker-compose.yml). 
+ 
+ - Check the port by inspecting `prom/prometheus:v2.22.0` image by using `docker inspect prom/prometheus:v2.22.0` shown below
+ 
+![image](https://user-images.githubusercontent.com/97168620/203608163-ce8a803a-3e9c-49ea-b8f3-3feceaada181.png)
+ 
+ - Run the `docker compose up -d` command to up the `docker-compse.yml` file.
+```
+anil@hellouser:~/csvserver/csvserver-master/docker_assig/solution$ sudo docker compose up -d
+[+] Running 2/2
+ ⠿ Container solution-prometheus-1  Started                                                                                                              2.2s
+ ⠿ Container solution-csvserver-1   Started                                                                                                              2.1s
+```
+
+ - Check the status of the docker containers by using the `docker ps` command for listing the running containers.
+
+```
+anil@hellouser:~/csvserver/csvserver-master/docker_assig/solution$ sudo docker ps
+CONTAINER ID   IMAGE                           COMMAND                  CREATED         STATUS         PORTS                                       NAMES
+9450da5f2b5e   infracloudio/csvserver:latest   "/csvserver/csvserver"   7 seconds ago   Up 5 seconds   0.0.0.0:9393->9300/tcp, :::9393->9300/tcp   solution-csvserver-1
+ed17e6a22b94   prom/prometheus:v2.22.0         "/bin/prometheus --c…"   7 seconds ago   Up 5 seconds   0.0.0.0:9090->9090/tcp, :::9090->9090/tcp   solution-prometheus-1
+```
+ 
+> **Note** if you use vm's the localhost will be replaced by your vm's ip address . in this case my vm's ip is http://192.168.1.102 .while reading the document please remember this.
+### Web accessing metrics data
+ - Accessing csvserver metric data by using the http://localhost:9393/metrics  i used vm so i can use the vm ip address `http:192.168.1.102:9393/metrics`
+in this case we are providing the csvserver port number for accessing the metric data 
+ 
+![image](https://user-images.githubusercontent.com/97168620/203598716-a39fb9be-406e-45f6-b3af-80c0d1fc93fa.png)
+ 
+### Accessing prometheus
+ 
+ - Make sure that Prometheus is accessible at http://localhost:9090 on the host. in our case vm's ip address (http://192.168.1.102:9090)
+ In this case we are using the prometheus port number.
+ 
+ - Once the home page is accessed, type `csvserver_records` in the query box of Prometheus.
+ 
+ - Click on Execute and then switch to the Graph tab.  
+ 
+ - The Prometheus instance should be accessible at http://localhost:9090, (if we use vm the localhost can be replaced by vm's ip address)  and it should show a straight line graph with value 10 (consider shrinking the time range to 5m).
+ 
+![image](https://user-images.githubusercontent.com/97168620/203599217-9d952056-ec4c-4133-b686-f735d995e30e.png)
+ 
+ - The csvserver application dockerization assignment completed successfully :sweat_smile:
