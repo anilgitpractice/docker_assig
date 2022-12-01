@@ -259,7 +259,7 @@
 
 ![image](https://user-images.githubusercontent.com/97168620/202318100-f4231a0f-4f82-445b-9d7d-97ca299e1f2d.png)
 
-> So we successfully dockerized our csvserver application.
+> So we successfully dockerized our csvserver application :whale:
  
 ---------
 
@@ -325,7 +325,7 @@
     ⠿ Network solution_default        Removed
   ```
 
-> By using the docker compose.yml file successfully.
+> By using the docker compose.yml file successfully :smile:
 
 -------
 
